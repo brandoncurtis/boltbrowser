@@ -634,7 +634,8 @@ func (screen *BrowserScreen) drawBucket(bkt *BoltBucket, style Style, y int) int
 
 	padAmt := (len(bkt.GetPath())*2 + 2)
 	if bkt.expanded {
-		bktString = bktString + "- " + bkt.name
+		//bktString = bktString + "- " + bkt.name
+		bktString = bktString + "- " + stringify([]byte(bkt.name))
 		if len(bktString)+padAmt > w {
 			bktString = bktString[:w-padAmt-3] + "..."
 		}
@@ -647,7 +648,8 @@ func (screen *BrowserScreen) drawBucket(bkt *BoltBucket, style Style, y int) int
 			usedLines += screen.drawPair(&bkt.pairs[i], style, y+usedLines)
 		}
 	} else {
-		bktString = bktString + "+ " + bkt.name
+		//bktString = bktString + "+ " + bkt.name
+		bktString = bktString + "+ " + stringify([]byte(bkt.name))
 		if len(bktString)+padAmt > w {
 			bktString = bktString[:w-padAmt-3] + "..."
 		}

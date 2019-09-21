@@ -265,9 +265,11 @@ GetPath returns the database path leading to this BoltBucket
 */
 func (b *BoltBucket) GetPath() []string {
 	if b.parent != nil {
-		return append(b.parent.GetPath(), b.name)
+		//return append(b.parent.GetPath(), b.name)
+		return append(b.parent.GetPath(), stringify([]byte(b.name)))
 	}
-	return []string{b.name}
+	//return []string{b.name}
+	return []string{stringify([]byte(b.name))}
 }
 
 /*
@@ -278,10 +280,12 @@ func (b *BoltBucket) buildVisiblePathSlice(prefix []string) ([][]string, error) 
 	var retSlice [][]string
 	var retErr error
 	retSlice = append(retSlice, append(prefix, b.name))
+	//retSlice = append(retSlice, append(prefix, stringify([]byte(b.name))))
 	if b.expanded {
 		// Add subbuckets
 		for i := range b.buckets {
 			bktS, bktErr := b.buckets[i].buildVisiblePathSlice(append(prefix, b.name))
+			//bktS, bktErr := b.buckets[i].buildVisiblePathSlice(append(prefix, stringify([]byte(b.name))))
 			if bktErr != nil {
 				return retSlice, bktErr
 			}
@@ -290,6 +294,7 @@ func (b *BoltBucket) buildVisiblePathSlice(prefix []string) ([][]string, error) 
 		// Add pairs
 		for i := range b.pairs {
 			retSlice = append(retSlice, append(append(prefix, b.name), b.pairs[i].key))
+			//retSlice = append(retSlice, append(append(prefix, stringify([]byte(b.name))), b.pairs[i].key))
 		}
 	}
 	return retSlice, retErr
@@ -301,6 +306,7 @@ func (b *BoltBucket) syncOpenBuckets(shadow *BoltBucket) {
 	for i := range b.buckets {
 		for j := range shadow.buckets {
 			if b.buckets[i].name == shadow.buckets[j].name {
+			//if stringify([]byte(b.buckets[i].name)) == stringify([]byte(shadow.buckets[j].name)) {
 				b.buckets[i].syncOpenBuckets(&shadow.buckets[j])
 			}
 		}

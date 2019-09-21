@@ -15,7 +15,8 @@ func stringify(v []byte) string {
 			if r < 0x20 {
 				ok = false
 				break
-			} else if r >= 0x7f && r <= 0x9f {
+			//} else if r >= 0x7f && r <= 0x9f {
+			} else if r >= 0x7f {
 				ok = false
 				break
 			}
